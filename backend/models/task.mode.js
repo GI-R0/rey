@@ -1,29 +1,27 @@
 const mongoose = require('mongoose');
 
-// Definimos el Esquema (Schema) de cómo debe lucir una Tarea
 const taskSchema = new mongoose.Schema({
     // Nombre/Título de la tarea
     name: {
         type: String,
-        required: true, // Obligatorio
-        trim: true
+        required: true, 
+        trim: true,
+        maxlength: 100 // 💡 MEJORA: Límite de caracteres
     },
-    // Descripción detallada de la tarea
+    // Descripción detallada de la tarea (Ahora opcional)
     text: {
         type: String,
-        required: true, // Obligatorio
+        required: false, // 💡 MEJORA: Ya no es obligatorio
         trim: true
     },
     // Estado de la tarea
     status: {
         type: String,
-        required: true, // Obligatorio
-        // Solo permite estos tres valores:
+        required: true,
         enum: ['Pending', 'Done', 'Progress'], 
-        default: 'Pending' // Valor por defecto al crear
+        default: 'Pending'
     }
 }, {
-    // Añade campos automáticos de 'createdAt' y 'updatedAt'
     timestamps: true 
 });
 
