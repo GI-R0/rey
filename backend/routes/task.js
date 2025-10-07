@@ -1,10 +1,11 @@
 import express from 'express';
-import { getTasks, createTask, deleteTask } from '../controllers/taskController.js';
+import { getTasks, createTask, updateTask, deleteTask } from '../controllers/taskController.js';
 
 const router = express.Router();
 
 router.get('/', getTasks);
 router.post('/', createTask);
+router.patch('/:id', updateTask); // Añadido el método PATCH/PUT
 router.delete('/:id', deleteTask);
 
 export default router;
