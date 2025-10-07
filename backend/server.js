@@ -1,24 +1,27 @@
 require('dotenv').config();
 
 const app = require('./index');
-const connectDB = require('./config/connectDb');
+const connectDB = require('./config/connectDb'); // Función que usa process.env.DB_URL
 
 const PORT = process.env.PORT || 3000;
 
-// Validar variable de entorno MONGO_URI
-if (!process.env.MONGO_URI) {
-    console.error('Falta la variable de entorno MONGO_URI');
+// 🛑 Corrección para usar DB_URL y asegurar coherencia con connectDb.js
+if (!process.env.DB_URL) {
+    console.error('Falta la variable de entorno DB_URL');
     process.exit(1);
 }
 
 connectDB()
     .then(() => {
-        console.log('Conexión a MongoDB exitosa');
+        // El mensaje de conexión DB se imprime dentro de connectDB,
+        // pero puedes dejarlo aquí si quieres.
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT} 🚀`);
         });
     })
     .catch((error) => {
-        console.error('Error al conectar a la base de datos:', error.message);
+        // Este catch ya no debería ser necesario si connectDB ya usa process.exit(1),
+        // pero es una buena capa de seguridad.
+        console.error('Error al iniciar la aplicación:', error.message);
         process.exit(1);
     });
